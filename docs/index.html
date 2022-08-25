@@ -1138,7 +1138,7 @@ pointer-events: none;
       if (options.tooltip) {
         nodeEnter = nodeEnter
         .on('mouseover', mouseover)
-        .on('mouseout', mouseout);
+        //.on('mouseout', mouseout);
       }
 
       // Enable zooming, if specified
@@ -1307,7 +1307,7 @@ pointer-events: none;
       // Hide tooltip on mouseout
       function mouseout(d) {
         tooltip.transition()
-        .duration(500)
+        .duration(50000)
         .style('opacity', 0);
       }
     }
