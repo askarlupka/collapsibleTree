@@ -60,7 +60,7 @@ HTMLWidgets.widget({
       // Add tooltips, if specified in options
       if (options.tooltip) {
         nodeEnter = nodeEnter
-        .on('mouseover', mouseover)
+        .on('mouseover', mouseover);
         //.on('mouseout', mouseout);
       }
 
