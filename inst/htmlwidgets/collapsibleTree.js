@@ -61,7 +61,7 @@ HTMLWidgets.widget({
       if (options.tooltip) {
         nodeEnter = nodeEnter
         .on('mouseover', mouseover)
-       // .on('mouseout', mouseout);
+        //.on('mouseout', mouseout);
       }
 
       // Enable zooming, if specified
@@ -228,7 +228,7 @@ HTMLWidgets.widget({
       // Hide tooltip on mouseout
       function mouseout(d) {
         tooltip.transition()
-        .duration(50000)
+        .duration(500)
         .style('opacity', 0);
       }
     }
