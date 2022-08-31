@@ -24,29 +24,6 @@ library(shiny) #making applications
 library(tidyverse) #manipulating data
 
 
-#For now you'll have to save the interview information in an excel file and have it in the same folder as the app file.
-#In the future, there should be a drop down option in the app to load a file from a location
-informational_interview <- readxl::read_excel("informational_interview.xlsx")
-
-#Rename it to manipulate it
-data <- informational_interview
-
-#Create the data that should go into the tooltip
-data <- data %>%
-  mutate(status  = as.factor(status),
-    tooltip = paste0("Title: ",
-                          title,
-                          "<br>OneNote: <a href=\"",
-                          link_onenote,
-                          "\">a link</a>" ))
-
-#Create the pathString and hierarchy order for the tree building
-data$pathString <- apply(data[,c(2:6,1)], 1, function(x) paste(na.omit(x), collapse = "/"))
-
-#Create the data tree
-data_as_tree <- data.tree::ToDataFrameTable(data, "pathString", "tooltip")
-dataN <- data.tree::FromDataFrameTable(data_as_tree)
-
 
 
 
@@ -60,7 +37,8 @@ ui <- fluidPage(
     ###This isn't functional yet. 
     sidebarLayout(
         sidebarPanel(
-           selectInput('collapsed', 'Collapsed/Expanded', c("Collapsed", "Expanded"))
+           selectInput('collapsed', 'Collapsed/Expanded', c("Collapsed", "Expanded")),
+           fileInput("file1", "Choose Excel File", accept = ".xlsx")
         ),
 
         # Show a tree diagram with the selected root node
@@ -72,8 +50,34 @@ ui <- fluidPage(
 
 # Define server logic required to draw a histogram
 server <- function(input, output) {
-
+  
     output$plot <- renderCollapsibleTree({
+      
+      #For now you'll have to save the interview information in an excel file and have it in the same folder as the app file.
+      #In the future, there should be a drop down option in the app to load a file from a location
+      
+      
+      file <- reactive({
+        input$file1
+      })
+      
+      data <- readxl::read_excel(file$datapath)
+      
+      #Create the data that should go into the tooltip
+      data <- data %>%
+        mutate(status  = as.factor(status),
+               tooltip = paste0("Title: ",
+                                title,
+                                "<br>OneNote: <a href=\"",
+                                link_onenote,
+                                "\">a link</a>" ))
+      
+      #Create the pathString and hierarchy order for the tree building
+      data$pathString <- apply(data[,c(2:6,1)], 1, function(x) paste(na.omit(x), collapse = "/"))
+      
+      #Create the data tree
+      data_as_tree <- data.tree::ToDataFrameTable(data, "pathString", "tooltip")
+      dataN <- data.tree::FromDataFrameTable(data_as_tree)
     
       collapse_toggle <- ifelse(input$collapsed == "Collapsed", TRUE, FALSE)
      
