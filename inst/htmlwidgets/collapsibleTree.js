@@ -60,8 +60,8 @@ HTMLWidgets.widget({
       // Add tooltips, if specified in options
       if (options.tooltip) {
         nodeEnter = nodeEnter
-        .on('mouseover', mouseover);
-        //.on('mouseout', mouseout);
+        .on('mouseover', mouseover)
+        .on('mouseout', mouseout);
       }
 
       // Enable zooming, if specified
@@ -228,7 +228,7 @@ HTMLWidgets.widget({
       // Hide tooltip on mouseout
       function mouseout(d) {
         tooltip.transition()
-        .duration(500)
+        .duration(1000)
         .style('opacity', 0);
       }
     }
