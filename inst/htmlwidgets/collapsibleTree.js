@@ -228,7 +228,7 @@ HTMLWidgets.widget({
       // Hide tooltip on mouseout
       function mouseout(d) {
         tooltip.transition()
-        .duration(1000)
+        .duration(2500)
         .style('opacity', 0);
       }
     }
